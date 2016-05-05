@@ -1,7 +1,7 @@
 require "ant/version"
 
 require "ant/tag"
-require "ant/handler"
+require "ant/null_tag"
 require "ant/node"
 require "ant/parser"
 
@@ -28,17 +28,12 @@ module Ant
 
   end # to_html
 
-  def tag(name, singular: false, aliases: [])
+  def tag(name, singular: false, aliases: [], &block)
 
-    if block_given?
-      base_tag = ::Ant::Tag.new(name, singular: singular, yield)
-    else
-      base_tag = ::Ant::Tag.new(name, singular: singular)
-    end
+    def_tag = ::Ant::Tag.new(name, singular: singular, &block)
 
-    aliases << name
-    aliases.each { |al|
-      add(al, base_tag)
+    (aliases << name).each { |al|
+      add(al, def_tag)
     }
 
     self
@@ -56,8 +51,11 @@ module Ant
   def clean(name)
     @tags_map = {}
   end # clean
-
   alias :reset :clean
+
+  def config(&block)
+    instance_eval(&block)
+  end # config
 
   private
 
@@ -105,3 +103,5 @@ module Ant
   end # new_lines
 
 end # Ant
+
+require "ant/default"

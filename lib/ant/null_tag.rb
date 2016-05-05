@@ -2,11 +2,13 @@ module Ant
 
   module NullTag
 
-    extend
+    extend self
+
+    def name; nil; end
 
     def singular?; false; end
 
-    def compile(*args); content; end
+    def compile(args, options, content); content; end
 
     def inspect
 

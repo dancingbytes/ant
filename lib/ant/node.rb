@@ -18,9 +18,12 @@ module Ant
       @name     = ""
 
       parse(raw)
-      get_tag
 
     end # initialize
+
+    def name
+      @name
+    end # name
 
     def singular?
       tag.singular?
@@ -52,7 +55,7 @@ module Ant
         gsub(CLEANER, '').
         split(PARAMS_SPLIT)
 
-      params.each { |par|
+      (params || []).each { |par|
 
         k, v = par.split(OPTIONS_SPLIT)
         if v.nil?
@@ -70,7 +73,7 @@ module Ant
     # Ищем тег подходящий для данной ноды
     def tag
 
-      return @tag
+      return @tag if @tag
 
       @tag = ::Ant.get(self.name) || ::Ant::NullTag
       @tag
