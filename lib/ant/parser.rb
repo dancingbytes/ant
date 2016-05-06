@@ -11,9 +11,10 @@ module Ant
 
     def initialize(text, opts = {})
 
-      @pipe     ||= []
+      @pipe     = []
       @raw      = text
       @content  = ""
+      @cur_text = ""
 
       @opts     = opts.is_a?(Hash) ? opts : {
         quotes:     true,
@@ -44,15 +45,20 @@ module Ant
     def pop
 
       tag       = @pipe.pop
-      @content  = tag.compile(@content) if tag
+      @cur_text = tag.compile(@cur_text) if tag
+
+      flush_text_context
       tag
 
     end # pop
 
     def push(tag)
 
+      flush_text_context
+
       @pipe << tag
       pop if tag.singular?
+
       tag
 
     end # push
@@ -61,23 +67,22 @@ module Ant
 
       @raw.
         split(TEXT_SPLIT).
-        select { |s| s.size > 0 }.
         each do |data|
 
-        case data
+          case data
 
-          # Закрытие тега
-          when TAG_END    then pop
+            # Закрытие тега
+            when TAG_END    then pop
 
-          # Открытие тега
-          when TAG_START  then push(::Ant::Node.new($1))
+            # Открытие тега
+            when TAG_START  then push(::Ant::Node.new($1))
 
-          # Обычный текст
-          else @content << prepare_text(data)
+            # Обычный текст
+            else save_text_context(data)
 
-        end # case
+          end # case
 
-      end # each
+        end # each
 
       # Если что-то осталось в стеке -- обрабатываем
       while pop do; end
@@ -89,6 +94,21 @@ module Ant
       @content
 
     end # parse
+
+    def save_text_context(txt)
+
+      @cur_text = prepare_text(txt)
+      self
+
+    end # save_text_context
+
+    def flush_text_context
+
+      @content << @cur_text
+      @cur_text = ""
+      self
+
+    end # flush_text_context
 
     def prepare_text(str)
 
