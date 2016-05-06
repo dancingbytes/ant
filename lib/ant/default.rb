@@ -47,13 +47,15 @@
   tag :link, aliases: [
     :ссылка,
     :a
-  ], ->(args, options, content) {
+  ] do ->(args, options, content) {
 
-    %Q(<a href='%{link}' rel="nofollow">%{content}</a>).freeze % {
-      link:     args[0],
-      content:  content
+      %Q(<a href='%{link}' rel="nofollow">%{content}</a>).freeze % {
+        link:     args[0],
+        content:  content
+      }
+
     }
 
-  }
+  end
 
 end # config

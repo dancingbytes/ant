@@ -27,7 +27,15 @@ module Ant
     def compile(args, options, content)
 
       # Если задан блок обработки
-      return @block.call(args, options, content) if @block.is_a?(::Proc)
+      if (res = @block).is_a?(::Proc)
+
+        begin
+          res = res.call(args, options, content)
+        end while res.is_a?(::Proc)
+
+        return res
+
+      end # if
 
       # Если тег самозакрывающийся
       return TMPL_SINGULAR % {
