@@ -1,0 +1,128 @@
+div.ant-editor-float {
+
+  position:fixed;
+  top:0;
+  z-index:100;
+  background-color:#fff;
+  border-bottom: 1px solid #E5E6E7;
+
+}
+
+div.ant-editor-float ~ textarea {
+  margin-top:32px;
+}
+
+div.ant-editor {
+
+  .dropdown-menu {
+
+    border-radius:0;
+    padding:0;
+
+    li {
+      margin:1px 0;
+    }
+
+  }
+
+  .btn .caret {
+    margin-left: 5px;
+  }
+
+  span.ed-icon {
+
+    display:block;
+    width:18px;
+    height:20px;
+
+  }
+
+  .btn-group {
+
+    border: 1px solid #E5E6E7;
+    border-bottom: 0;
+
+    .btn-group {
+      border:0;
+    }
+
+  }
+
+  .btn {
+    border-radius:0 !important;
+    border:0;
+    margin-left:0 !important;
+  }
+
+  .ed-icon-underline:before {
+    content: "U";
+    border-bottom: 1px solid #000;
+  }
+
+  .ed-icon-stroke:before {
+    content: "S";
+    text-decoration:line-through;
+  }
+
+  .ed-icon-link {
+    background: transparent asset-url('ant/link.png') no-repeat 50% 50%;
+  }
+
+  .ed-icon-quote {
+    background: transparent asset-url('ant/quote.png') no-repeat 50% 50%;
+  }
+
+  .ed-icon-image {
+    background: transparent asset-url('ant/image.png') no-repeat 50% 50%;
+  }
+
+  .ed-icon-twitter {
+    background: transparent asset-url('ant/twitter.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+  .ed-icon-instagram {
+    background: transparent asset-url('ant/instagram.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+  .ed-icon-youtube {
+    background: transparent asset-url('ant/youtube.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+  .ed-icon-coub {
+    background: transparent asset-url('ant/coub.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+  .ed-icon-script {
+    background: transparent asset-url('ant/script.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+  .ed-icon-vimeo {
+    background: transparent asset-url('ant/vimeo.png') no-repeat 50% 50%;
+    background-size: 18px 18px;
+  }
+
+}
+
+.ant-modal-win {
+
+  .modal-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .modal-footer {
+    border-top:0;
+    padding-top:0;
+  }
+
+  textarea {
+    height: 160px;
+  }
+
+}

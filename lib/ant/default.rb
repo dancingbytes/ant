@@ -37,5 +37,23 @@
   tag :dl
   tag :dt
   tag :dd
+  tag :h1
+  tag :h2
+  tag :h3
+  tag :h4
+  tag :h5
+  tag :h6
+
+  tag :link, aliases: [
+    :ссылка,
+    :a
+  ], ->(args, options, content) {
+
+    %Q(<a href='%{link}' rel="nofollow">%{content}</a>).freeze % {
+      link:     args[0],
+      content:  content
+    }
+
+  }
 
 end # config

@@ -1,4 +1,10 @@
-# Ant
+# Ant - simple BBCode editor with javascript ui
+
+## Support
+
+Ruby:  2.0+
+
+Rails: 3.2+
 
 ## Installation
 
@@ -18,9 +24,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/dancingbytes/ant.
 
+### License
+
+Author: Tyralion (piliaiev@gmail.com)
+
+Copyright (c) 2016 DansingBytes.ru, released under the BSD license
