@@ -4,7 +4,7 @@
 
   var WINDOW_TMPL = (
 
-    '<div class="modal editor-modal-win" tabindex="-1" role="dialog">' +
+    '<div class="modal ant-modal-win" tabindex="-1" role="dialog">' +
       '<div class="modal-dialog">' +
         '<div class="modal-content">' +
           '<div class="modal-header">' +
