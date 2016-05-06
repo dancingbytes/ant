@@ -1,3 +1,6 @@
+#
+# Объект BBcode
+#
 module Ant
 
   #
@@ -38,8 +41,7 @@ module Ant
       "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
       " name:     #{@name},\n"    <<
       " args:     #{@args},\n"    <<
-      " options:  #{@options},\n" <<
-      " handler:  #{@handler}>\n"
+      " options:  #{@options}>"
 
     end # inspect
 
@@ -51,9 +53,12 @@ module Ant
     # -- опции
     def parse(raw)
 
-      @name, params = raw.
+      params = raw.
         gsub(CLEANER, '').
         split(PARAMS_SPLIT)
+
+      # Выбираем название тега
+      @name  = params.shift
 
       (params || []).each { |par|
 

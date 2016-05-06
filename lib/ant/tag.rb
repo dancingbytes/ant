@@ -1,9 +1,12 @@
+#
+# Объект html тега
+#
 module Ant
 
   class Tag
 
     TMPL_BASE     = %Q(<%{name}%{options}%{args}>%{content}</%{name}>).freeze
-    TMPL_SINGULAR = %Q(<%{name}%{options}%{args} />).freeze
+    TMPL_SINGULAR = %Q(<%{name}%{options}%{args}/>).freeze
 
     def initialize(name, singular: false, &block)
 
