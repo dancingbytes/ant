@@ -338,7 +338,7 @@
     }, // hasSelected
 
     getValue: function() {
-      return this.cEl ? this.cEl.value : "";
+      return (this.cEl ? this.cEl.value : "");
     }, // getValue
 
     getCaret: function() {
@@ -371,7 +371,7 @@
       params = params || {};
 
       // Исходный текст
-      var v   = this.cEl.value;
+      var v   = (this.cEl.value || "");
       // Итоговый текст
       var val = "";
 
@@ -444,7 +444,7 @@
   Editor.tmpl = function(format, obj) {
 
     return format.replace(/{\w+}/g, function(p1, offset, s) {
-      return obj[ p1.replace(/[{}]/g, '') ];
+      return (obj[ p1.replace(/[{}]/g, '') ] || "");
     });
 
   }; // tmpl
