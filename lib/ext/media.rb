@@ -242,4 +242,18 @@ end # Ant
     ::Ant::Snippet.vimeo(args, options, content)
   end
 
+  tag :img, singular: true, aliases: [
+    :image,
+    :картинка,
+    :изображение
+  ] do ->(args, options, content) {
+
+      %Q(<img src='%{link}' class="img-responsive" />).freeze % {
+        link:     args[0]
+      }
+
+    }
+
+  end
+
 end
