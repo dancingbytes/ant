@@ -6,8 +6,6 @@ module Ant
 
     initializer :assets do |app|
 
-#      app.config.assets.precompile += %w{ ant.css }
-#      app.config.assets.precompile += %w{ ant.js }
       app.config.assets.paths << root.join('app', 'assets')
 
     end

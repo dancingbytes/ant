@@ -101,8 +101,5 @@ end # Ant
 
 require "ant/default"
 
-# Подключаем дополнительные bbcode-а
-require "ext/media"
-
 # Если у нас rails -- интегрируемся
 require 'ant/engine' if defined?(::Rails)
