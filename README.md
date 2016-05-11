@@ -26,6 +26,23 @@ Or install it yourself as:
 
 ## Usage
 
+Add to application.js
+
+```js
+//= require ant
+```
+
+Add to application.scss
+
+```css
+@import "ant";
+```
+
+For your textarea tag just add class
+
+```css
+.ant-editor
+```
 
 ## Contributing
 
