@@ -87,9 +87,6 @@ module Ant
       # Если что-то осталось в стеке -- обрабатываем
       while pop do; end
 
-      # Обраатываем переводы строк -- если задано
-      new_lines(@content) if new_lines?
-
       # Возвращаем обработаннй текст
       @content
 
@@ -104,7 +101,7 @@ module Ant
 
     def flush_text_context
 
-      @content << @cur_text
+      @content  << @cur_text
       @cur_text = ""
       self
 
@@ -112,8 +109,9 @@ module Ant
 
     def prepare_text(str)
 
-      minuses(str) if minuses?
-      quotes(str)  if quotes?
+      minuses(str)    if minuses?
+      quotes(str)     if quotes?
+      new_lines(str)  if new_lines?
       str
 
     end # prepare_text
@@ -136,18 +134,11 @@ module Ant
 
     def new_lines(str)
 
-      # Убираем переводы строк
-      str.gsub!(/\n/, '')
-
-      # Убираем первый символ абзаца после закрывающего тегв
-      str.gsub!(/\>\r/, '>')
-
-      # Убираем перевод строки в начале текста и в самом конце
-      str.gsub!(/^(\r+)/, '')
-      str.gsub!(/(\r+)$/, '')
-
       # Меняем символ абзаца на тег br
-      str.gsub!(/\r/, '<br/>')
+      str.gsub!(/\r\n/, '<br/>')
+
+      # Убираем лишнее
+      str.gsub!(/[\n\r\t\0]/, '')
 
       self
 
