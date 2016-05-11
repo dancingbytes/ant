@@ -451,6 +451,9 @@
 
   Editor.prototype.tmpl = Editor.tmpl;
 
+  /**
+   * Define action
+   */
   Editor.actions = function(name, params) {
 
     params = params || {}
@@ -468,19 +471,25 @@
 
   }; // actions
 
-  Editor.actionsClearAll = function() {
+  /**
+   * Remove defined action
+   */
+  Editor.remove = function(name) {
+
+    Editor.prototype.actions[name] = null;
+    return Editor;
+
+  }; // remove
+
+  /**
+   * Remove all actions
+   */
+  Editor.removeAll = function() {
 
     Editor.prototype.actions = {};
     return Editor;
 
-  }; // actionsClearAll
-
-  Editor.actionsDelete = function(name) {
-
-    delete Editor.prototype.actions[name];
-    return Editor;
-
-  }; // actionsDelete
+  }; // removeAll
 
   // --- Window ---------------------------------------------------------------
   var Win = function(params, c) {
@@ -520,7 +529,7 @@
 
         this.el.modal({
           backdrop: false,
-          keyboard: false,
+          keyboard: true,
           show:     false
         });
 
