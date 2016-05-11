@@ -37,6 +37,11 @@ div.ant-editor {
 
   }
 
+  .btn-group > .btn:last-child:not(:first-child),
+  .btn-group > .dropdown-toggle:not(:first-child) {
+    margin-right:0;
+  }
+
   .btn-group {
 
     border: 1px solid #E5E6E7;
@@ -46,6 +51,8 @@ div.ant-editor {
     .btn-group {
       border:0;
     }
+
+
 
   }
 
@@ -71,10 +78,6 @@ div.ant-editor {
 
   .ed-icon-quote {
     background: transparent asset-url('ant/quote.png') no-repeat 50% 50%;
-  }
-
-  .ed-icon-image {
-    background: transparent asset-url('ant/image.png') no-repeat 50% 50%;
   }
 
   .ed-icon-twitter {
@@ -127,5 +130,3 @@ div.ant-editor {
   }
 
 }
-
-@import "ant/images";

@@ -21,6 +21,4 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0'
 
-  spec.add_runtime_dependency "railties", ">= 3.2", "< 5"
-
 end

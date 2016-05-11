@@ -1,10 +1,12 @@
-# Ant - simple BBCode editor with javascript ui
+# Ant
+
+Simple BBCode editor with javascript ui
 
 ## Support
 
 Ruby:  2.0+
 
-Rails: 3.2+
+Rails: 4.2+
 
 ## Installation
 
