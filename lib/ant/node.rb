@@ -10,8 +10,16 @@ module Ant
   #
   class Node
 
-    PARAMS_SPLIT  = /\s+/.freeze
-    OPTIONS_SPLIT = /=/.freeze
+    # Разбор аттрибутов по пустой строке
+    ATTR_SPLIT  = /\s+/.freeze
+
+    # Регулярка для разбора парамтеров.
+    # Парамерами называется пара ключ-значение, где
+    # ключом может быть строка состоящая только из букв и цифр
+    #
+    PARAMS_SPLIT = /\A(\w+)\=(\S+)/.freeze
+
+    # Убираем пробела в начале и в концн строки
     CLEANER       = /(\A\s+|\s+\Z)/.freeze
 
     def initialize(raw)
@@ -55,21 +63,23 @@ module Ant
 
       params = raw.
         gsub(CLEANER, '').
-        split(PARAMS_SPLIT)
+        split(ATTR_SPLIT)
 
       # Выбираем название тега
       @name  = params.shift
 
-      (params || []).each { |par|
+      # Выбираем агрументы и параметры
+      while (str = params.shift)
 
-        k, v = par.split(OPTIONS_SPLIT)
-        if v.nil?
-          @args << k
+        # Если строка не похожа на параметр -- значит это агрумент
+        k, v = str.scan(PARAMS_SPLIT).first
+        if k.nil? || v.nil?
+          @args << str
         else
           @options[k.to_sym] = v
         end
 
-      }
+      end # while
 
       self
 
