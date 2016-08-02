@@ -11,10 +11,11 @@ module Ant
 
     def initialize(text, opts = {})
 
-      @pipe     = []
-      @raw      = text
-      @content  = ""
-      @cur_text = ""
+      @pipe         = []
+      @raw          = text.dup
+      @roots        = []
+      @current_tags = {}
+      @level        = 0
 
       @opts     = opts.is_a?(Hash) ? opts : {
         quotes:     true,
@@ -28,33 +29,42 @@ module Ant
       @to_html ||= parse
     end # to_html
 
-    def quotes?
-      @opts[:quotes] == true
-    end # quotes?
+    def inspect
 
-    def minuses?
-      @opts[:minuses] == true
-    end # minuses?
+      "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
+      " pipe:       #{@pipe},\n" <<
+      " raw:        '#{@raw}'\n" <<
+      " roots:      #{@roots}>"
 
-    def new_lines?
-      @opts[:new_lines] == true
-    end # new_lines?
+    end # inspect
 
     private
 
     def pop
 
-      tag       = @pipe.pop
-      @cur_text = tag.compile(@cur_text) if tag
+      if (tag = @pipe.pop)
 
-      flush_text_context
+        tag.compile
+
+        @roots << tag if tag.root?
+        @level -= 1
+
+      end # if
+
       tag
 
     end # pop
 
     def push(tag)
 
-      flush_text_context
+      # Выбираем родителя на текущем уровне
+      parent_tag = @current_tags[@level]
+
+      # Запоминаем родителья для данного тега
+      tag.parent = parent_tag
+
+      @level += 1
+      @current_tags[@level] = tag
 
       @pipe << tag
       pop if tag.singular?
@@ -78,7 +88,7 @@ module Ant
             when TAG_START  then push(::Ant::Node.new($1))
 
             # Обычный текст
-            else save_text_context(data)
+            else push(::Ant::TextNode.new(data, @opts))
 
           end # case
 
@@ -88,61 +98,9 @@ module Ant
       while pop do; end
 
       # Возвращаем обработаннй текст
-      @content
+      @roots.map(&:compile).join
 
     end # parse
-
-    def save_text_context(txt)
-
-      @cur_text = prepare_text(txt)
-      self
-
-    end # save_text_context
-
-    def flush_text_context
-
-      @content  << @cur_text
-      @cur_text = ""
-      self
-
-    end # flush_text_context
-
-    def prepare_text(str)
-
-      minuses(str)    if minuses?
-      quotes(str)     if quotes?
-      new_lines(str)  if new_lines?
-      str
-
-    end # prepare_text
-
-    # Заменяем все одинарные и двойные кавычки на более красивые
-    def quotes(str)
-
-      str.gsub!(/[\"\'](.[^\"\']+)[\"\']/, '«\1»')
-      self
-
-    end # quotes
-
-    # Заменяем все двойные минусы на длинное тире
-    def minuses(str)
-
-      str.gsub!(/--/, '—')
-      self
-
-    end # minuses
-
-    def new_lines(str)
-
-      # Меняем символ абзаца на тег br
-      str.gsub!(/\r\n/, '<br/>')
-
-      # Убираем лишнее
-      str.gsub!(/[\n\r\t\0]/, '')
-
-      self
-
-    end # new_lines
 
   end # Parser
 

@@ -27,10 +27,36 @@ module Ant
       @args     = []
       @options  = {}
       @name     = ""
+      @children = []
+      @parent   = nil
 
       parse(raw)
 
     end # initialize
+
+    def type
+      :node
+    end # type
+
+    def <<(node)
+      @children << node
+    end # <<
+
+    def parent=(node)
+
+      @parent = node
+      node << self if node
+      node
+
+    end # parent=
+
+    def parent
+      @parent
+    end # parent
+
+    def root?
+      parent.nil?
+    end # root?
 
     def name
       @name
@@ -40,20 +66,34 @@ module Ant
       tag.singular?
     end # singular?
 
-    def compile(content)
-      tag.compile(@args, @options, content)
+    def compile
+
+      @value ||= tag.compile(
+        @args,
+        @options,
+        children.inject("") { |str, tag| str << tag.compile }
+      )
+
     end # compile
 
     def inspect
 
       "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
-      " name:     #{@name},\n"    <<
-      " args:     #{@args},\n"    <<
-      " options:  #{@options}>"
+      " name:     #{@name},\n"                <<
+      " type:     #{type},\n"                 <<
+      " args:     #{@args},\n"                <<
+      " options:  #{@options},\n"             <<
+      " children: #{children.join(', ')},\n"  <<
+      " parent:   #{parent},\n"               <<
+      " value:    #{compile}>"
 
     end # inspect
 
     private
+
+    def children
+      @children
+    end # children
 
     # Разбираем сырую строку. Выбираем:
     # -- название тега

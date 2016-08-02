@@ -2,6 +2,7 @@ require "ant/version"
 
 require "ant/tag"
 require "ant/null_tag"
+require "ant/text_node"
 require "ant/node"
 require "ant/parser"
 
