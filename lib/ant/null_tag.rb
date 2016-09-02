@@ -8,6 +8,10 @@ module Ant
 
     def singular?; false; end
 
+    def slave_tags; []; end
+
+    def aliases; []; end
+
     def compile(args, options, content); content; end
 
     def inspect

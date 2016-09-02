@@ -43,9 +43,14 @@ module Ant
   #
   # Объявление тега
   #
-  def tag(name, singular: false, aliases: [], &block)
+  def tag(name, singular: false, aliases: [], slaves: nil, &block)
 
-    def_tag = ::Ant::Tag.new(name, singular: singular, &block)
+    def_tag = ::Ant::Tag.new(name,
+      singular: singular,
+      slaves:   slaves,
+      aliases:  aliases,
+      &block
+    )
 
     (aliases << name).each { |al|
       tags_map[al.to_sym] = def_tag

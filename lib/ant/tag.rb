@@ -8,11 +8,13 @@ module Ant
     TMPL_BASE     = %Q(<%{name}%{options}%{args}>%{content}</%{name}>).freeze
     TMPL_SINGULAR = %Q(<%{name}%{options}%{args}/>).freeze
 
-    def initialize(name, singular: false, &block)
+    def initialize(name, singular: false, slaves: nil, aliases: [], &block)
 
-      @name     = name
-      @singular = singular
-      @block    = block || nil
+      @name       = name.to_sym
+      @singular   = singular
+      @block      = block   || nil
+      @aliases    = aliases
+      @slaves     = slaves
 
     end # initialize
 
@@ -24,13 +26,42 @@ module Ant
       @singular == true
     end # singular?
 
-    def compile(args, options, content)
+    def slave_tags
+
+      return @slave_tags if @slave_tags
+
+      if @slaves.is_a?(Array)
+
+        @slave_tags = @slaves.inject([]) { |arr, el|
+
+          arr << el
+          arr << ::Ant.get(el).aliases
+
+        }
+
+        @slave_tags.flatten!
+        @slave_tags.uniq!
+        @slave_tags.map!(&:to_sym)
+
+      else
+        @slave_tags = []
+      end
+
+      @slave_tags
+
+    end # slave_tags
+
+    def aliases
+      @aliases
+    end # aliases
+
+    def compile(args, options, content, tags)
 
       # Если задан блок обработки
       if (res = @block).is_a?(::Proc)
 
         begin
-          res = res.call(args, options, content)
+          res = res.call(args, options, content, tags)
         end while res.is_a?(::Proc)
 
         return res
@@ -40,7 +71,7 @@ module Ant
       # Если тег самозакрывающийся
       return TMPL_SINGULAR % {
 
-        name:     @name,
+        name:     name,
         args:     args_to_s(args),
         options:  hash_to_s(options)
 
@@ -49,7 +80,7 @@ module Ant
       # Общий случай
       TMPL_BASE % {
 
-        name:     @name,
+        name:     name,
         args:     args_to_s(args),
         options:  hash_to_s(options),
         content:  content
@@ -61,8 +92,9 @@ module Ant
     def inspect
 
       "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
-      " name:     #{@name},\n"    <<
-      " singular: #{@singular},\n"    <<
+      " name:     #{name},\n"        <<
+      " singular: #{singular?},\n"    <<
+      " slaves:   #{slave_tags},\n"  <<
       " block:    #{@block.inspect}>\n"
 
     end # inspect

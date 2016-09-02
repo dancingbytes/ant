@@ -68,18 +68,19 @@ module Ant
 
     def compile
 
-      @value ||= tag.compile(
-        @args,
-        @options,
-        children.inject("") { |str, tag| str << tag.compile }
-      )
+      return @value if @value
+
+      cnt, slvs = prepare_children
+
+      @value    = tag.compile( @args, @options, cnt, slvs )
+      @value
 
     end # compile
 
     def inspect
 
       "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
-      " name:     #{@name},\n"                <<
+      " name:     #{name},\n"                <<
       " type:     #{type},\n"                 <<
       " args:     #{@args},\n"                <<
       " options:  #{@options},\n"             <<
@@ -90,6 +91,29 @@ module Ant
     end # inspect
 
     private
+
+    def prepare_children
+
+      cnt     = ""
+      slaves  = []
+
+      children.each { |child|
+
+        if child.name && tag.slave_tags.include?(child.name.to_sym)
+
+          slaves << {
+            child.name => child.compile
+          }
+
+        else
+          cnt << child.compile
+        end
+
+      }
+
+      return cnt, slaves
+
+    end # prepare_children
 
     def children
       @children
