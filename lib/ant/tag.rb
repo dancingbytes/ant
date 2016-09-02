@@ -10,7 +10,7 @@ module Ant
 
     def initialize(name, singular: false, slaves: nil, aliases: [], &block)
 
-      @name       = name.to_sym
+      @name       = name
       @singular   = singular
       @block      = block   || nil
       @aliases    = aliases
@@ -19,7 +19,7 @@ module Ant
     end # initialize
 
     def name
-      @name
+      @name.to_sym
     end # name
 
     def singular?
@@ -30,7 +30,7 @@ module Ant
 
       return @slave_tags if @slave_tags
 
-      if @slaves.is_a?(Array)
+      if @slaves.is_a?(::Array)
 
         @slave_tags = @slaves.inject([]) { |arr, el|
 

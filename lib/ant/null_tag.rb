@@ -12,7 +12,7 @@ module Ant
 
     def aliases; []; end
 
-    def compile(args, options, content); content; end
+    def compile(args, options, content, tags); content; end
 
     def inspect
 

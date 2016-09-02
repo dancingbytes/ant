@@ -32,9 +32,9 @@ module Ant
     def inspect
 
       "#<#{self.class}:0x#{'%x' % (self.object_id << 1)}\n" <<
-      " pipe:       #{@pipe},\n" <<
-      " raw:        '#{@raw}'\n" <<
-      " roots:      #{@roots}>"
+      " pipe:   #{@pipe},\n" <<
+      " raw:    '#{@raw}'\n" <<
+      " roots:  #{@roots}>"
 
     end # inspect
 
