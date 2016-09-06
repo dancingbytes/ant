@@ -47,7 +47,7 @@
   tag :link, aliases: [
     :ссылка,
     :a
-  ] do ->(args, options, content) {
+  ] do ->(args, options, content, tags) {
 
       %Q(<a href='%{link}' rel="nofollow">%{content}</a>).freeze % {
         link:     args[0],
