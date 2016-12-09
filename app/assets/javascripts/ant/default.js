@@ -5,7 +5,7 @@
   // H2
   Ant.actions('h2', {
 
-    text:   'Большой',
+    text:   'Очень большой',
     group:  'Заголовки',
     handler: function() {
       this.setValue('[h2]{selection}[/h2]');
@@ -16,13 +16,24 @@
   // H3
   Ant.actions('h3', {
 
-    text:   'Средний',
+    text:   'Большой',
     group:  'Заголовки',
     handler: function() {
       this.setValue('[h3]{selection}[/h3]');
     }
 
-  }); // H3
+  }); // H4
+
+  // H3
+  Ant.actions('h4', {
+
+    text:   'Средний',
+    group:  'Заголовки',
+    handler: function() {
+      this.setValue('[h4]{selection}[/h4]');
+    }
+
+  }); // H4
 
   // Bold
   Ant.actions('bold', {
