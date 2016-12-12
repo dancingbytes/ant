@@ -1,7 +1,6 @@
 require "ant/version"
-
-require "ant/tag"
 require "ant/null_tag"
+require "ant/tag"
 require "ant/text_node"
 require "ant/node"
 require "ant/parser"
@@ -13,7 +12,8 @@ module Ant
   #
   # Преобразование bbcode-ов в html
   #
-  # Ant.to_html('[p]my 'string!'' [i color="#f00"]red text[/i]')
+  # Ant.to_html(%{[p]my 'string!\'' [i color="#f00"]red text[/i]})
+  # Ant.to_html(%{[p]my 'string!\'' var i = [1,2,3]; [i color="#f00"]red text[/i]})
   #
   def to_html(str, options = {
     quotes:     true,
@@ -64,7 +64,10 @@ module Ant
   # Взятие тега по имени (используется в коде редактора)
   #
   def get(name)
+
+    return if name.nil?
     tags_map[name.to_sym]
+
   end # get
 
   #
@@ -72,7 +75,7 @@ module Ant
   #
   def remove(name)
 
-    tags_map[name.to_sym] = nil
+    tags_map[name.to_sym] = nil unless name.nil?
     self
 
   end # remove
