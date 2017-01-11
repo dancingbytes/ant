@@ -21,7 +21,7 @@ module Ant
     new_lines:  true
   })
 
-    ::Ant::Parser.new(str, options).to_html
+    ::Ant::Parser.new(str.to_s, options).to_html
 
   end # to_html
 
