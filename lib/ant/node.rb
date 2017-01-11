@@ -59,7 +59,7 @@ module Ant
     end # root?
 
     def name
-      @name
+      String(@name)
     end # name
 
     def singular?
@@ -89,6 +89,16 @@ module Ant
       " value:    #{compile}>"
 
     end # inspect
+
+    # Ищем тег подходящий для данной ноды
+    def tag
+
+      return @tag if @tag
+
+      @tag = ::Ant.get(self.name) || ::Ant::NullTag
+      @tag
+
+    end # tag
 
     private
 
@@ -125,7 +135,7 @@ module Ant
     # -- опции
     def parse(raw)
 
-      params = raw.
+      params = String(raw).
         gsub(CLEANER, '').
         split(ATTR_SPLIT)
 
@@ -148,16 +158,6 @@ module Ant
       self
 
     end # parse
-
-    # Ищем тег подходящий для данной ноды
-    def tag
-
-      return @tag if @tag
-
-      @tag = ::Ant.get(self.name) || ::Ant::NullTag
-      @tag
-
-    end # tag
 
   end # Node
 

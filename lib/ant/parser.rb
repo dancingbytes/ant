@@ -82,13 +82,22 @@ module Ant
           case data
 
             # Закрытие тега
-            when TAG_END    then pop
+            when TAG_END    then
+              pop
 
             # Открытие тега
-            when TAG_START  then push(::Ant::Node.new($1))
+            when TAG_START  then
+
+              n = ::Ant::Node.new($1)
+              if ::Ant.get(n.name).nil?
+                push(::Ant::TextNode.new(data, @opts))
+              else
+                push(n)
+              end
 
             # Обычный текст
-            else push(::Ant::TextNode.new(data, @opts))
+            else
+              push(::Ant::TextNode.new(data, @opts))
 
           end # case
 
