@@ -97,8 +97,6 @@ module Ant
   alias :add    :tag
   alias :reset  :clean
 
-  private
-
   #
   # Список тегов
   #
