@@ -9,13 +9,14 @@ module Ant
     TAG_END     = /\[\/([^\]]+)\]/.freeze
     TEXT_SPLIT  = /(\[[^\[\]]+\])/i.freeze
 
-    def initialize(text, opts = {})
+    def initialize(text, opts = {}, config)
 
       @pipe         = []
       @raw          = text.dup
       @roots        = []
       @current_tags = {}
       @level        = 0
+      @config       = config
 
       @opts     = opts.is_a?(Hash) ? opts : {
         quotes:     true,
@@ -23,11 +24,11 @@ module Ant
         new_lines:  true
       }
 
-    end # initialize
+    end
 
     def to_html
       @to_html ||= parse
-    end # to_html
+    end
 
     def inspect
 
@@ -36,7 +37,7 @@ module Ant
       " raw:    '#{@raw}'\n" <<
       " roots:  #{@roots}>"
 
-    end # inspect
+    end
 
     private
 
@@ -88,8 +89,8 @@ module Ant
             # Открытие тега
             when TAG_START  then
 
-              n = ::Ant::Node.new($1)
-              if ::Ant.get(n.name).nil?
+              n = ::Ant::Node.new($1, @config)
+              if @config.get(n.name).nil?
                 push(::Ant::TextNode.new(data, @opts))
               else
                 push(n)

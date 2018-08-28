@@ -11,17 +11,17 @@ module Ant
       @opts   = opts
       @parent = nil
 
-    end # initialize
+    end
 
-    def name; nil; end # name
+    def name; nil; end
 
     def type
       :text
-    end # type
+    end
 
     def <<(node)
       node
-    end # node
+    end
 
     def parent=(node)
 
@@ -29,35 +29,35 @@ module Ant
       node << self if node
       node
 
-    end # parent=
+    end
 
     def parent
       @parent
-    end # parent
+    end
 
     def root?
       parent.nil?
-    end # root?
+    end
 
     def singular?
       true
-    end # singular?
+    end
 
     def compile
       @value ||= parse(@raw)
-    end # compile
+    end
 
     def quotes?
       @opts[:quotes] == true
-    end # quotes?
+    end
 
     def minuses?
       @opts[:minuses] == true
-    end # minuses?
+    end
 
     def new_lines?
       @opts[:new_lines] == true
-    end # new_lines?
+    end
 
     def inspect
 
@@ -82,7 +82,7 @@ module Ant
       new_lines(str)  if new_lines?
       str
 
-    end # parse
+    end
 
     # Заменяем все одинарные и двойные кавычки на более красивые
     def quotes(str)
@@ -90,7 +90,7 @@ module Ant
       str.gsub!(/[\"\'](.[^\"\']+)[\"\']/, '«\1»')
       self
 
-    end # quotes
+    end
 
     # Заменяем все двойные минусы на длинное тире
     def minuses(str)
@@ -98,7 +98,7 @@ module Ant
       str.gsub!(/--/, '—')
       self
 
-    end # minuses
+    end
 
     def new_lines(str)
 

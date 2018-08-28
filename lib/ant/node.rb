@@ -22,25 +22,26 @@ module Ant
     # Убираем пробела в начале и в концн строки
     CLEANER       = /(\A\s+|\s+\Z)/.freeze
 
-    def initialize(raw)
+    def initialize(raw, config)
 
       @args     = []
       @options  = {}
       @name     = ""
       @children = []
       @parent   = nil
+      @config   = config
 
       parse(raw)
 
-    end # initialize
+    end
 
     def type
       :node
-    end # type
+    end
 
     def <<(node)
       @children << node
-    end # <<
+    end
 
     def parent=(node)
 
@@ -48,23 +49,23 @@ module Ant
       node << self if node
       node
 
-    end # parent=
+    end
 
     def parent
       @parent
-    end # parent
+    end
 
     def root?
       parent.nil?
-    end # root?
+    end
 
     def name
-      String(@name)
-    end # name
+      @name.to_s
+    end
 
     def singular?
       tag.singular?
-    end # singular?
+    end
 
     def compile
 
@@ -75,7 +76,7 @@ module Ant
       @value    = tag.compile( @args, @options, cnt, slvs )
       @value
 
-    end # compile
+    end
 
     def inspect
 
@@ -88,17 +89,17 @@ module Ant
       " parent:   #{parent},\n"               <<
       " value:    #{compile}>"
 
-    end # inspect
+    end
 
     # Ищем тег подходящий для данной ноды
     def tag
 
       return @tag if @tag
 
-      @tag = ::Ant.get(self.name) || ::Ant::NullTag
+      @tag = @config.get(self.name) || ::Ant::NullTag
       @tag
 
-    end # tag
+    end
 
     private
 
@@ -127,7 +128,7 @@ module Ant
 
     def children
       @children
-    end # children
+    end
 
     # Разбираем сырую строку. Выбираем:
     # -- название тега

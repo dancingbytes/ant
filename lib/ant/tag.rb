@@ -20,11 +20,11 @@ module Ant
 
     def name
       @name.to_sym
-    end # name
+    end
 
     def singular?
       @singular == true
-    end # singular?
+    end
 
     def slave_tags
 
@@ -53,7 +53,7 @@ module Ant
 
     def aliases
       @aliases
-    end # aliases
+    end
 
     def compile(args, options, content, tags)
 
@@ -97,13 +97,13 @@ module Ant
       " slaves:   #{slave_tags},\n"  <<
       " block:    #{@block.inspect}>\n"
 
-    end # inspect
+    end
 
     private
 
     def args_to_s(args)
       args.empty? ? "" : " #{args.join(' ')}"
-    end # args_to_s
+    end
 
     def hash_to_s(hash)
 
@@ -111,7 +111,7 @@ module Ant
       s = hash.inject([]) { |str, el| str << "#{el[0]}=#{el[1]}" }.join(' ')
       " #{s}"
 
-    end # hash_to_s
+    end
 
   end # Tag
 
