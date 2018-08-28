@@ -8,13 +8,21 @@ module Ant
     TMPL_BASE     = %Q(<%{name}%{options}%{args}>%{content}</%{name}>).freeze
     TMPL_SINGULAR = %Q(<%{name}%{options}%{args}/>).freeze
 
-    def initialize(name, singular: false, slaves: nil, aliases: [], &block)
+    def initialize(
+      name,
+      config,
+      singular: false,
+      slaves: nil,
+      aliases: [],
+      &block
+    )
 
       @name       = name
       @singular   = singular
       @block      = block   || nil
       @aliases    = aliases
       @slaves     = slaves
+      @config     = config
 
     end # initialize
 
@@ -35,7 +43,7 @@ module Ant
         @slave_tags = @slaves.inject([]) { |arr, el|
 
           arr << el
-          arr << ::Ant.get(el).aliases
+          arr << @config.get(el).aliases
 
         }
 

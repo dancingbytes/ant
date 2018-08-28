@@ -14,7 +14,9 @@ module Ant
     #
     def tag(name, singular: false, aliases: [], slaves: nil, &block)
 
-      def_tag = ::Ant::Tag.new(name,
+      def_tag = ::Ant::Tag.new(
+        name,
+        self,
         singular: singular,
         slaves:   slaves,
         aliases:  aliases,
